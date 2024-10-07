@@ -4,7 +4,17 @@
 
    app.use(express.json());
 
-   app.post('/create-ssh', (req, res) => {
+   const allowedIPs = ['192.168.1.1', '203.0.113.0']; // Daftar IP yang diizinkan
+
+   function checkIP(req, res, next) {
+       const clientIP = req.ip;
+       if (!allowedIPs.includes(clientIP)) {
+           return res.status(403).json({ error: 'IP tidak diizinkan' });
+       }
+       next();
+   }
+
+   app.post('/create-ssh', checkIP, (req, res) => {
        const { username, password, expiry, iplimit } = req.body;
 
        if (!username || !password || !expiry || !iplimit) {
@@ -18,7 +28,7 @@
            res.status(200).json({ message: 'Akun SSH berhasil dibuat', data: result });
        });
    });
-   app.post('/create-vmess', (req, res) => {
+   app.post('/create-vmess', checkIP, (req, res) => {
        const { username, expiry, quota, iplimit } = req.body;
 
        if (!username || !expiry || !quota || !iplimit) {
@@ -33,7 +43,7 @@
        });
    });
 
-   app.post('/create-trojan', (req, res) => {
+   app.post('/create-trojan', checkIP, (req, res) => {
        const { username, expiry, quota, iplimit } = req.body;
 
        if (!username || !expiry || !quota || !iplimit) {
@@ -47,7 +57,7 @@
            res.status(200).json({ message: 'Akun Trojan berhasil dibuat', data: result });
        });
    });
-   app.post('/create-vless', (req, res) => {
+   app.post('/create-vless', checkIP, (req, res) => {
        const { username, expiry, quota, iplimit } = req.body;
 
        if (!username || !expiry || !quota || !iplimit) {
@@ -61,7 +71,7 @@
            res.status(200).json({ message: 'Akun VLESS berhasil dibuat', data: result });
        });
    });
-   app.post('/create-shadowsocks', (req, res) => {
+   app.post('/create-shadowsocks', checkIP, (req, res) => {
        const { username, expiry, quota, iplimit } = req.body;
 
        if (!username || !expiry || !quota || !iplimit) {
