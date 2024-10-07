@@ -1,8 +1,9 @@
    const express = require('express');
-   const { createSSH, createTrojan, createVLESS, createShadowsocks } = require('fightertunnel');
+   const { createSSH, createTrojan, createVLESS, createShadowsocks, createVMess } = require('fightertunnel');
    const app = express();
 
    app.use(express.json());
+
    app.post('/create-ssh', (req, res) => {
        const { username, password, expiry, iplimit } = req.body;
 
@@ -17,6 +18,21 @@
            res.status(200).json({ message: 'Akun SSH berhasil dibuat', data: result });
        });
    });
+   app.post('/create-vmess', (req, res) => {
+       const { username, expiry, quota, iplimit } = req.body;
+
+       if (!username || !expiry || !quota || !iplimit) {
+           return res.status(400).json({ error: 'Semua parameter diperlukan' });
+       }
+
+       createVMess(username, expiry, quota, iplimit, (err, result) => {
+           if (err) {
+               return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+           }
+           res.status(200).json({ message: 'Akun VMess berhasil dibuat', data: result });
+       });
+   });
+
    app.post('/create-trojan', (req, res) => {
        const { username, expiry, quota, iplimit } = req.body;
 
