@@ -87,7 +87,7 @@ API ini menyediakan endpoint untuk membuat berbagai jenis akun VPN, termasuk SSH
 
 ## Menjalankan Server
 
-Server ini akan berjalan sebagai layanan systemd dan dapat diakses melalui http://localhost:3000. Anda dapat mengelola layanan ini menggunakan perintah systemctl, seperti `systemctl status api` untuk memeriksa status, `systemctl restart api` untuk memulai ulang, dan perintah lainnya sesuai kebutuhan.
+Server ini akan berjalan sebagai layanan systemd dan dapat diakses melalui http://ip:3000. Anda dapat mengelola layanan ini menggunakan perintah systemctl, seperti `systemctl status api` untuk memeriksa status, `systemctl restart api` untuk memulai ulang, dan perintah lainnya sesuai kebutuhan.
 
 ## Kontribusi
 
