@@ -16,10 +16,11 @@ API ini menyediakan endpoint untuk membuat berbagai jenis akun VPN, termasuk SSH
    npm install
    ```
 
-3. Jalankan server dengan perintah:
+3. Jalankan `setup.sh` untuk mengatur dan menjalankan server sebagai service systemd:
 
    ```bash
-   node api.js
+    chmod +x setup.sh
+   ./setup.sh
    ```
 
 ## Endpoint
@@ -86,7 +87,7 @@ API ini menyediakan endpoint untuk membuat berbagai jenis akun VPN, termasuk SSH
 
 ## Menjalankan Server
 
-Server akan berjalan pada port yang ditentukan dalam variabel lingkungan `PORT` atau default pada port 3000. Anda dapat mengakses API melalui `http://localhost:3000`.
+Server ini akan berjalan sebagai layanan systemd dan dapat diakses melalui http://localhost:3000. Anda dapat mengelola layanan ini menggunakan perintah systemctl, seperti `systemctl status api` untuk memeriksa status, `systemctl restart api` untuk memulai ulang, dan perintah lainnya sesuai kebutuhan.
 
 ## Kontribusi
 
