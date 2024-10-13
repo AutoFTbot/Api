@@ -18,7 +18,7 @@ Description=API Service
 After=network.target
 
 [Service]
-WorkingDirectory=/root/api
+WorkingDirectory=/root/Api
 ExecStart=/usr/bin/env node /root/Api/apiV2.js
 Environment=ALLOWED_IPS=$ALLOWED_IPS
 Environment=PORT=$PORT
