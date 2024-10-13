@@ -2,7 +2,15 @@
 
 read -p "Masukkan IP yang diizinkan (pisahkan dengan koma jika lebih dari satu): " ALLOWED_IPS
 
+read -p "Masukkan port yang akan digunakan: " PORT
+
+if [[ -z "$PORT" ]]; then
+    echo "Port tidak boleh kosong. Silakan jalankan kembali script dan masukkan port yang valid."
+    exit 1
+fi
+
 export ALLOWED_IPS
+export PORT
 
 cat >/etc/systemd/system/api.service << EOF
 [Unit]
@@ -13,6 +21,7 @@ After=network.target
 WorkingDirectory=/root/api
 ExecStart=/usr/bin/env node /root/Api/apiV2.js
 Environment=ALLOWED_IPS=$ALLOWED_IPS
+Environment=PORT=$PORT
 Restart=always
 
 [Install]
