@@ -4,8 +4,7 @@ const app = express();
 
 app.use(express.json());
 
-// Daftar IP yang diizinkan
-const allowedIPs = ['123.456.789.0', '987.654.321.0']; // Ganti dengan IP yang diizinkan
+const allowedIPs = process.env.ALLOWED_IPS ? process.env.ALLOWED_IPS.split(',') : [];
 
 app.use((req, res, next) => {
     const clientIP = req.ip;
