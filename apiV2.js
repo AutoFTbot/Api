@@ -89,7 +89,13 @@ app.post('/create-shadowsocks', (req, res) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
+
+if (!PORT) {
+    console.error("Port tidak ditentukan. Pastikan untuk mengatur variabel lingkungan PORT.");
+    process.exit(1);
+}
+
 app.listen(PORT, () => {
     console.log(`Server berjalan di port ${PORT}`);
 });
