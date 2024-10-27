@@ -9,8 +9,10 @@ if [[ -z "$PORT" ]]; then
     exit 1
 fi
 
-export ALLOWED_IPS
-export PORT
+cat >/root/Api/.env << EOF
+ALLOWED_IPS=$ALLOWED_IPS
+PORT=$PORT
+EOF
 
 cat >/etc/systemd/system/api.service << EOF
 [Unit]
@@ -20,8 +22,6 @@ After=network.target
 [Service]
 WorkingDirectory=/root/Api
 ExecStart=/usr/bin/env node /root/Api/apiV2.js
-Environment=ALLOWED_IPS=$ALLOWED_IPS
-Environment=PORT=$PORT
 Restart=always
 
 [Install]
