@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { createSSH, createTrojan, createVLESS, createShadowsocks, createVMess } = require('fightertunnel');
 const app = express();
@@ -7,7 +8,8 @@ app.use(express.json());
 const allowedIPs = process.env.ALLOWED_IPS ? process.env.ALLOWED_IPS.split(',') : [];
 
 app.use((req, res, next) => {
-    const clientIP = req.ip;
+    const clientIP = req.ip.includes('::ffff:') ? req.ip.split('::ffff:')[1] : req.ip;
+    console.log(`Client IP: ${clientIP}`); 
     if (!allowedIPs.includes(clientIP)) {
         return res.status(403).json({ error: 'Akses ditolak' });
     }
@@ -92,7 +94,7 @@ app.post('/create-shadowsocks', (req, res) => {
 const PORT = process.env.PORT;
 
 if (!PORT) {
-    console.error("Port tidak ditentukan. Pastikan untuk mengatur variabel lingkungan PORT.");
+    console.error("Port tidak ditentukan. Pastikan file .env sudah terisi dengan benar.");
     process.exit(1);
 }
 
