@@ -1,6 +1,18 @@
 require('dotenv').config();
 const express = require('express');
-const { createSSH, createTrojan, createVLESS, createShadowsocks, createVMess } = require('fightertunnel');
+const { 
+    createSSH, 
+    createTrojan, 
+    createVLESS, 
+    createShadowsocks, 
+    createVMess, 
+    checkSSH, 
+    checkVMess, 
+    checkTrojan, 
+    checkVLESS, 
+    checkShadowsocks 
+} = require('fightertunnel');
+
 const app = express();
 
 app.use(express.json());
@@ -88,6 +100,34 @@ app.post('/create-shadowsocks', (req, res) => {
             return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
         }
         res.status(200).json({ data: result });
+    });
+});
+//CEK
+app.post('/check/:service', (req, res) => {
+    const service = req.params.service.toLowerCase();
+    const checkFunctions = {
+        ssh: checkSSH,
+        vmess: checkVMess,
+        trojan: checkTrojan,
+        vless: checkVLESS,
+        shadowsocks: checkShadowsocks
+    };
+
+    const checkFunction = checkFunctions[service];
+
+    if (!checkFunction) {
+        return res.status(400).json({ error: 'Layanan tidak valid' });
+    }
+
+    checkFunction((err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        if (!result || !result.data || result.data.length === 0) {
+            return res.status(200).json({ status: 'success', data: '⚠️ Tidak ada yang login' });
+        }
+        const uniqueData = Array.from(new Set(result.data.map(JSON.stringify))).map(JSON.parse);
+        res.status(200).json({ status: 'success', data: uniqueData });
     });
 });
 
