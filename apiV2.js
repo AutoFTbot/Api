@@ -10,7 +10,17 @@ const {
     checkVMess, 
     checkTrojan, 
     checkVLESS, 
-    checkShadowsocks 
+    checkShadowsocks,
+    renewSSH,
+    renewVMess,
+    renewTrojan,
+    renewVLESS,
+    renewShadowsocks,
+    trialSSH,
+    trialTrojan,
+    trialVMess,
+    trialVLess,
+    trialShadowsocks
 } = require('fightertunnel');
 
 const app = express();
@@ -102,7 +112,7 @@ app.post('/create-shadowsocks', (req, res) => {
         res.status(200).json({ data: result });
     });
 });
-//CEK
+
 app.post('/check/:service', (req, res) => {
     const service = req.params.service.toLowerCase();
     const checkFunctions = {
@@ -128,6 +138,127 @@ app.post('/check/:service', (req, res) => {
         }
         const uniqueData = Array.from(new Set(result.data.map(JSON.stringify))).map(JSON.parse);
         res.status(200).json({ status: 'success', data: uniqueData });
+    });
+});
+
+app.post('/renew-ssh', (req, res) => {
+    const { username, expiry, iplimit } = req.body;
+
+    if (!username || !expiry || !iplimit) {
+        return res.status(400).json({ error: 'Semua parameter diperlukan' });
+    }
+
+    renewSSH(username, expiry, iplimit, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/renew-vmess', (req, res) => {
+    const { username, expiry, quota, iplimit } = req.body;
+
+    if (!username || !expiry || !quota || !iplimit) {
+        return res.status(400).json({ error: 'Semua parameter diperlukan' });
+    }
+
+    renewVMess(username, expiry, quota, iplimit, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/renew-trojan', (req, res) => {
+    const { username, expiry, quota, iplimit } = req.body;
+
+    if (!username || !expiry || !quota || !iplimit) {
+        return res.status(400).json({ error: 'Semua parameter diperlukan' });
+    }
+
+    renewTrojan(username, expiry, quota, iplimit, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/renew-vless', (req, res) => {
+    const { username, expiry, quota, iplimit } = req.body;
+
+    if (!username || !expiry || !quota || !iplimit) {
+        return res.status(400).json({ error: 'Semua parameter diperlukan' });
+    }
+
+    renewVLESS(username, expiry, quota, iplimit, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/renew-shadowsocks', (req, res) => {
+    const { username, expiry, quota, iplimit } = req.body;
+
+    if (!username || !expiry || !quota || !iplimit) {
+        return res.status(400).json({ error: 'Semua parameter diperlukan' });
+    }
+
+    renewShadowsocks(username, expiry, quota, iplimit, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/trial-ssh', (req, res) => {
+    trialSSH((err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err.message });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/trial-vmess', (req, res) => {
+    trialVMess((err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err.message });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/trial-trojan', (req, res) => {
+    trialTrojan((err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err.message });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/trial-vless', (req, res) => {
+    trialVLess((err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err.message });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/trial-shadowsocks', (req, res) => {
+    trialShadowsocks((err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err.message });
+        }
+        res.status(200).json({ data: result });
     });
 });
 
