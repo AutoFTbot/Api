@@ -6,7 +6,6 @@ const app = express();
 
 app.use(express.json());
 
-// Allowed IPs Middleware
 const allowedIPs = process.env.ALLOWED_IPS ? process.env.ALLOWED_IPS.split(',') : [];
 app.use((req, res, next) => {
     const clientIP = req.ip.includes('::ffff:') ? req.ip.split('::ffff:')[1] : req.ip;
