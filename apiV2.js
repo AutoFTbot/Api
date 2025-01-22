@@ -20,7 +20,12 @@ const {
     trialTrojan,
     trialVMess,
     trialVLess,
-    trialShadowsocks
+    trialShadowsocks,
+    deleteSSH,
+    deleteVMess,
+    deleteTrojan,
+    deleteVLESS,
+    deleteShadowsocks
 } = require('fightertunnel');
 
 const app = express();
@@ -257,6 +262,81 @@ app.post('/trial-shadowsocks', (req, res) => {
     trialShadowsocks((err, result) => {
         if (err) {
             return res.status(500).json({ error: 'Terjadi kesalahan', details: err.message });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/delete-ssh', (req, res) => {
+    const { username } = req.body;
+
+    if (!username) {
+        return res.status(400).json({ error: 'Username diperlukan' });
+    }
+
+    deleteSSH(username, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/delete-vmess', (req, res) => {
+    const { username } = req.body;
+
+    if (!username) {
+        return res.status(400).json({ error: 'Username diperlukan' });
+    }
+
+    deleteVMess(username, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/delete-trojan', (req, res) => {
+    const { username } = req.body;
+
+    if (!username) {
+        return res.status(400).json({ error: 'Username diperlukan' });
+    }
+
+    deleteTrojan(username, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/delete-vless', (req, res) => {
+    const { username } = req.body;
+
+    if (!username) {
+        return res.status(400).json({ error: 'Username diperlukan' });
+    }
+
+    deleteVLESS(username, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
+        }
+        res.status(200).json({ data: result });
+    });
+});
+
+app.post('/delete-shadowsocks', (req, res) => {
+    const { username } = req.body;
+
+    if (!username) {
+        return res.status(400).json({ error: 'Username diperlukan' });
+    }
+
+    deleteShadowsocks(username, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Terjadi kesalahan', details: err });
         }
         res.status(200).json({ data: result });
     });
