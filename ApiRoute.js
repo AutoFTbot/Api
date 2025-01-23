@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const fightertunnel = require('./services'); // Menggunakan modul pembungkus
+const fightertunnel = require('./services');
 
 const app = express();
 
