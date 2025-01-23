@@ -26,7 +26,7 @@ print_line() {
 clear
 echo -e "${CYAN}"
 print_line
-echo -e "       🌟 ${WHITE}API Service Setup Script${CYAN} 🌟"
+echo -e "      ${WHITE}API Service Setup Script${CYAN} "
 print_line
 echo -e "${NC}"
 
