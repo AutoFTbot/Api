@@ -48,7 +48,6 @@ app.post('/nobzvpn/add', authMiddleware, (req, res) => {
         username,
         password,
         expired,
-        message: 'User added successfully',
         payload: {
           payload: payload
         }
