@@ -44,7 +44,6 @@ app.post('/nobzvpn/add', authMiddleware, (req, res) => {
       const ua = '[ua]';
       const payload = `GET / HTTP/1.1[crlf]Host: ${host}[crlf]Connection: Upgrade[crlf]User-Agent: ${ua}[crlf]Upgrade: websocket[crlf][crlf]`;
       res.json({
-        status: 'success',
         username,
         password,
         expired,
